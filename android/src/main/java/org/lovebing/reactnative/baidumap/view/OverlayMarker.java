@@ -40,6 +40,12 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import org.lovebing.reactnative.baidumap.R;
+
+//TODO xuelong add
+import org.lovebing.reactnative.baidumap.model.DrillingInfo;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import org.lovebing.reactnative.baidumap.model.IconInfo;
 import org.lovebing.reactnative.baidumap.util.BitmapUtil;
 
@@ -237,6 +243,37 @@ public class OverlayMarker extends ViewGroup implements OverlayView, ClusterItem
         if (marker != null) {
             marker.setPerspective(perspective);
         }
+    }
+
+    //TODO xuelong add
+    public void setDrillingMaker(DrillingInfo drillingInfo) {
+        if (drillingInfo.getProgress() == null || drillingInfo.getDrillingCode() == null) {
+            return;
+        }
+
+        View view = View.inflate(getContext(), R.layout.layout_map_marker, null);
+        TextView mTvCode = (TextView) view.findViewById(R.id.ic_map_kong_txt);
+        ImageView mIvImg = (ImageView) view.findViewById(R.id.iv_map_kong_bg);
+
+        String status = drillingInfo.getProgress();
+        boolean isCptDrilling = false;
+        mTvCode.setText(drillingInfo.getDrillingCode());
+        if ("06".equals(drillingInfo.getDrillingType())) {
+            isCptDrilling = true;
+        }
+        if ("04".equals(status) || "05".equals(status)) {
+            mIvImg.setImageResource(isCptDrilling ? R.drawable.ic_drilling_cpt_has_finished : R.drawable.ic_drilling_has_finished);
+        } else if ("03".equals(status)) {
+            mIvImg.setImageResource(isCptDrilling ? R.drawable.ic_drilling_cpt_checking : R.drawable.ic_drilling_checking);
+        } else if ("02".equals(status)) {
+            mIvImg.setImageResource(isCptDrilling ? R.drawable.ic_drilling_cpt_going_on : R.drawable.ic_drilling_going_on);
+        } else if ("06".equals(status)) {
+            mIvImg.setImageResource(isCptDrilling ? R.drawable.ic_drilling_cpt_has_error : R.drawable.ic_drilling_has_error);
+        } else if ("01".equals(status)) {
+            mIvImg.setImageResource(isCptDrilling ? R.drawable.ic_drilling_cpt_no_start : R.drawable.ic_drilling_no_start);
+        }
+
+        iconBitmapDescriptor = BitmapDescriptorFactory.fromView(view);
     }
 
     public void setIcon(IconInfo iconInfo) {

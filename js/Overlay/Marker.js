@@ -24,6 +24,7 @@ export default class Marker extends Component {
     rotate: PropTypes.number,
     flat: PropTypes.bool,
     icon: PropTypes.any,
+    drilling: PropTypes.object,//TODO xuelong add
     animateType: PropTypes.string,
     pinColor: PropTypes.string,
     onClick: PropTypes.func

@@ -16,6 +16,8 @@ import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
 import org.lovebing.reactnative.baidumap.model.IconInfo;
+//TODO xuelong add
+import org.lovebing.reactnative.baidumap.model.DrillingInfo;
 import org.lovebing.reactnative.baidumap.util.LatLngUtil;
 import org.lovebing.reactnative.baidumap.view.OverlayInfoWindow;
 import org.lovebing.reactnative.baidumap.view.OverlayMarker;
@@ -69,6 +71,21 @@ public class OverlayMarkerManager extends ViewGroupManager<OverlayMarker> {
         }
     }
 
+    //TODO xuelong add
+    @ReactProp(name = "drilling")
+    public void setDrilling(OverlayMarker overlayMarker, ReadableMap drilling) {
+        if (drilling != null && drilling.hasKey("progress") && drilling.hasKey("drillingCode")) {
+            DrillingInfo drillingInfo = new DrillingInfo();
+
+            drillingInfo.setProgress(drilling.getString("progress"));
+            drillingInfo.setDrillingCode(drilling.getString("drillingCode"));
+            drillingInfo.setDrillingType(drilling.getString("drillingType"));
+
+            Log.i("drillingInfo", drillingInfo.getProgress());
+            overlayMarker.setDrillingMaker(drillingInfo);
+        }
+    }
+    
     @ReactProp(name = "perspective")
     public void setPerspective(OverlayMarker overlayMarker, boolean perspective) {
         overlayMarker.setPerspective(perspective);
